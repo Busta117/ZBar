@@ -106,6 +106,8 @@
     assert(scanner);
 
     tracksSymbols = YES;
+    self.showsCropLayer = YES;
+    self.previewColor = [UIColor blackColor];
     interfaceOrientation = UIInterfaceOrientationPortrait;
     torchMode = 2; // AVCaptureTorchModeAuto
     scanCrop = effectiveCrop = CGRectMake(0, 0, 1, 1);
@@ -125,6 +127,8 @@
     if(!self)
         return(nil);
 
+    self.previewColor = [UIColor blackColor];
+    self.showsCropLayer = YES;
     self.backgroundColor = [UIColor blackColor];
     self.contentMode = UIViewContentModeScaleAspectFill;
     self.clipsToBounds = YES;
@@ -325,9 +329,9 @@ static inline CGFloat rotationForInterfaceOrientation (int orient)
     tracking.borderWidth = imageScale;
 
 #ifndef NDEBUG
-    preview.backgroundColor = [UIColor yellowColor].CGColor;
+    preview.backgroundColor = self.previewColor.CGColor;
     overlay.borderWidth = 2 * imageScale;
-    cropLayer.borderWidth = 2 * imageScale;
+    cropLayer.borderWidth =  2 * imageScale;
     cropLayer.frame = CGRectMake(effectiveCrop.origin.x * imageSize.width,
                                  effectiveCrop.origin.y * imageSize.height,
                                  effectiveCrop.size.width * imageSize.width,
@@ -347,6 +351,11 @@ static inline CGFloat rotationForInterfaceOrientation (int orient)
 
     [CATransaction commit];
     animationDuration = 0;
+}
+
+- (void) setPreviewColor:(UIColor *)previewColor{
+    _previewColor = previewColor;
+    preview.backgroundColor = previewColor.CGColor;
 }
 
 - (void) setImageSize: (CGSize) size
@@ -411,6 +420,14 @@ static inline CGFloat rotationForInterfaceOrientation (int orient)
     if(show == showsFPS)
         return;
     fpsView.hidden = !show;
+}
+
+- (void) setShowsCropLayer: (BOOL) show
+{
+    if(show == _showsCropLayer)
+        return;
+    _showsCropLayer = show;
+    cropLayer.hidden = !show;
 }
 
 - (void) setZoom: (CGFloat) z

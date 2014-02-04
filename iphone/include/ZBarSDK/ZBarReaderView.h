@@ -99,6 +99,9 @@
 // color of the tracking box (default green)
 @property (nonatomic, retain) UIColor *trackingColor;
 
+//color of the preview before start camera
+@property (nonatomic, retain) UIColor *previewColor;
+
 // enable pinch gesture recognition for zooming the preview/decode
 // (default YES).
 @property (nonatomic) BOOL allowsPinchZoom;
@@ -109,6 +112,10 @@
 // whether to display the frame rate for debug/configuration
 // (default NO).
 @property (nonatomic) BOOL showsFPS;
+
+//whether to display the border in the camera frame
+//(default YES)
+@property (nonatomic) BOOL showsCropLayer;
 
 // zoom scale factor applied to video preview *and* scanCrop.
 // also updated by pinch-zoom gesture.  clipped to range [1,maxZoom],
